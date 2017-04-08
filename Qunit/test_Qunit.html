@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>QUnit Example</title>
+  <link rel="stylesheet" href="qunit-2.3.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="qunit-2.3.0.js"></script>
+  <script>
+  	QUnit.test( "hello test", function( assert ) {
+  assert.ok( 1 == "1", "Passed!" );
+});
+  	function format(string, values) {
+    for (var key in values) {
+        string = string.replace(new RegExp("\{" + key + "}","g"), values[key]);
+    }
+    return string;
+}
+ 
+    QUnit.test("basics", function(assert) {
+    var values = {
+        name: "World"
+    };
+    assert.equal( format("Hello, {name}", values), "Hello, World", "单个匹配" );
+    assert.equal( format("Hello, {name}, how is {name} today?", values),
+        "Hello, World, how is World today?", "多个匹配" );
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style>
+          .active{
+          	color:red;
+          }
+          .warning{
+          	 background-color:red;
+          }
+        </style>
+    </head>
+
+    <body>
+        <!--这是我们的View-->
+        <div id="app1" v-bind:title="titleMessage" >
+            {{ message }}
+        </div>
+        <hr>
+        <div id="app2">
+            <p v-if="seen">现在你能看到我</p>
+        </div>
+        <hr>
+        <div id="app3" >
+            <ol>
+              <li v-for="todo in todos">{{todo.text}}
+              </li>
+            </ol>
+        </div>
+        <hr>
+        <div id="app4">
+            {{ message }}
+            <button v-on:click="reverseMessage">逆转消息</button>
+            <input v-model="message"></input>
+        </div>
+        <hr>
+        <div id="app5">
+            {{ message }}
+        </div>
+        <hr>
+        <div id="app6">
+            <p>test显示过滤/排序的副本而不影响原数组</p>
+            <li v-for="n in evenNumbers">{{ n }}</li>
+            <p>过滤后原数组的值不改变</p>
+            <li v-for="n in numbers">{{ n }}</li>
+        </div>
+        <hr>
+        <div id="app7">
+            <p>监听事件</p>
+            <button v-on:click="counter+=1">增加一次</button>
+            <p>这个按钮被点击了{{counter}}次</p>
+        </div>
+        <hr>
+        <div id="app8">
+            <p>方法时间处理器</p>
+            <button v-on:click="hello">greet</button>
+            <p>调用hello方法</p>
+        </div>
+        <hr>
+        <div id="app9">
+            <p>v-model表单控件绑定</p>
+            <p>单行文本</p>
+            <input v-model="message" placeholder="edit me">
+            <p>Message is :{{ message }}</p>
+            <p>多行文本</p>
+            <textarea v-model="lmessage" placeholder="add mutiple lines"></textarea>
+            <p style="white-space: pre">LMessage is :{{ lmessage }}</p>
+            <p>多个复选框，绑定到同一数组</p>
+            <input type="checkbox" id="jack"  value="Jack" v-model="checkedNames">
+            <label for="jack">Jack</label>
+            <input type="checkbox" id="rose"  value="Rose" v-model="checkedNames">
+            <label for="rose">Rose</label>
+            <input type="checkbox" id="marry"  value="Marry" v-model="checkedNames">
+            <label for="marry">Marry</label>
+            <input type="checkbox" id="lareina"  value="Lareina" v-model="checkedNames">
+            <label for="lareina">Lareina</label>
+            <br/>
+            <span>Checked names:{{ checkedNames }}</span>
+            <p>单选按钮</p>
+            <input type="radio" id="male" value="male" v-model="radioName">
+            <label for="male">Male</label>
+            <input type="radio" id="female" value="female" v-model="radioName">
+            <label for="female">Female</label>
+            <br/>
+            <span>Choosed name:{{ radioName }}</span>
+            <p>选择列表设置</p>
+            <select v-model="selected" style="width:50px">
+            	<option v-for="choice in choices">{{ choice }}</option>
+            </select>
+            <br/>
+            <span>Selected:{{ selected }}
+        </div>
+        <hr>
+        <div id="userManage">
+        	<fieldset>
+        		<legend>Create New Person</legend>
+        		<form id="create">
+        		  <span>Name</span><input type="text"  v-model="NewPerson.name"/>
+        		  <span>Age</span><input type="text"  v-model="NewPerson.age"/>
+        		  <select v-model="NewPerson.sex">
+        		     <option value="male">Male</option>
+        		  	 <option value="female">Female</option>
+        		  </select>
+        		  <button @click="createPerson">Create</button>
+        		</form>
+        		   <table>
+        		      <thead>
+        		        <th>Name</th><th>Age</th><th>Sex</th><th>Delete</th>
+        		      </thead> 
+        		    <tbody>
+        		      <tr v-for="person in personList">
+        		        <td>{{person.name}}</td>
+        		        <td>{{person.age}}</td>
+        		        <td>{{person.sex}}</td>
+        		        <td><button @click="removePerson($index)">Delete</button></td>
+        		      </tr>
+        		    </tbody>
+        		   	
+        		   </table>
+        	</fieldset>
+        </div>
+         <div id="app">
+            <fieldset>
+                <legend>
+                    Create New Person
+                </legend>
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" v-model="newPerson.name"/>
+                </div>
+                <div class="form-group">
+                    <label>Age:</label>
+                    <input type="text" v-model="newPerson.age"/>
+                </div>
+                <div class="form-group">
+                    <label>Sex:</label>
+                    <select v-model="newPerson.sex">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <button @click="createPerson">Create</button>
+                </div>
+        </fieldset>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Sex</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="person in people">
+                    <td>{{ person.name }}</td>
+                    <td>{{ person.age }}</td>
+                    <td>{{ person.sex }}</td>
+                    <td :class="'text-center'"><button @click="deletePerson($index)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <hr>
+        <div id="topbar">
+           <div class="login"  :class="{active:isActive}" @click="loginMenu">{{user}}</div>
+           </div>
+           <ul >
+             <li class="item">修改密码</li>
+             <li class="item">Logout</li>
+           </ul>
+        </div>
+        <hr>
+        <div>
+            <input type="text" oninput="OnInput(event)" onpropertychange="OnPropChanged (event)" placeholder="请输入一串字符"/>
+        </div>
+    </body>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 这是我们的Model
+       /* var exampleData = {
+            message: 'Hello World!'
+        }
+
+        // 创建一个 Vue 实例或 "ViewModel"
+        // 它连接 View 与 Model
+        new Vue({
+            el: '#app',
+            data: exampleData
+        })*/
+        var app1 = new Vue({
+        	el:'#app1',
+        	data:{
+        		message:'Hello Vue!',
+        		titleMessage:'start vue test'
+        		
+        	}
+        });
+        var app2 = new Vue({
+        	el:'#app2',
+        	data:{
+        		seen:true
+        	}
+        })
+        var app3 = new Vue({
+        	el:'#app3',
+        	data:{
+        		todos:[
+        		{ text:'学习js'},
+        		{ text:'学习vue'},
+        		{ text:'学习everything'}
+        		]
+        	}
+        })
+        app3.todos.push({text:'加油'});
+        var app4 = new Vue({
+        	el:'#app4',
+        	data:{
+        		message:'Hello vue.js',
+        	},
+        	methods:{
+        		reverseMessage:function () {
+        			this.message=this.message.split('').reverse().join('')
+        		}
+        	}
+        })
+        var app6= new Vue({
+        	el:"#app6",
+        	data:{
+        		numbers:[1,2,3,4,5]
+        	},
+        	computed:{
+        		evenNumbers:function(){
+        			return this.numbers.filter(function(number){
+        				return number%2===0
+        			})
+        		}
+        	}
+        })
+        var app7 = new Vue({
+        	el:"#app7",
+        	data:{
+        		counter:0,
+        	}
+        })
+        var app8 = new Vue({
+        	el:"#app8",
+        	data:{
+        		name:"vue.js"
+        	},
+        	methods:{
+        		hello:function(event){
+        			alert("hello "+this.name+"!")
+        			alert(event.target.tagName)
+        		}
+        	}
+        })
+        var app9 = new Vue({
+        	el:"#app9",
+        	data:{
+        		message:"",
+        		lmessage:"",
+        		checkedNames:[],
+        		radioName:'',
+        		selected:[],
+        		choices:['a','b','c','d']
+
+        	}
+        })
+        var userManage = new Vue({
+        	el:"#userManage",
+        	data:{
+        		NewPerson:{
+        			name:'',
+        			age:0,
+        			sex:'male'
+        		},
+        		personList:[{
+        			name:'jack',
+        			age:30,
+        			sex:'female'
+        		},
+        		{
+        			name:'steve',
+        			age:18,
+        			sex:'male'
+        		}],
+        	},
+        	methods:{
+        		createPerson:function(){
+                    this.personList.push(this.NewPerson);
+                    this.NewPerson={name:'',age:0,sex:'male'}
+        		},
+        		removePerson:function(index){
+        			this.personList.splice(index,1);
+        		}
+        	}
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                newPerson: {
+                    name: '',
+                    age: 0,
+                    sex: 'Male'
+                },
+                people: [{
+                    name: 'Jack',
+                    age: 30,
+                    sex: 'Male'
+                }, {
+                    name: 'Bill',
+                    age: 26,
+                    sex: 'Male'
+                }, {
+                    name: 'Tracy',
+                    age: 22,
+                    sex: 'Female'
+                }, {
+                    name: 'Chris',
+                    age: 36,
+                    sex: 'Male'
+                }]
+            },
+            methods:{
+                createPerson: function(){
+                    this.people.push(this.newPerson);
+                    // 添加完newPerson对象后，重置newPerson对象
+                    this.newPerson = {name: '', age: 0, sex: 'Male'}
+                },
+                deletePerson: function(index){
+                    // 删一个数组元素
+                    this.people.splice(index,1);
+                }
+            }
+        })
+        var topbar = new Vue({
+        	el:"#topbar",
+        	data:{
+        		user:'LIN',
+        		isActive:false
+        	},
+        	methods:{
+        		loginMenu:function(){
+        			this.isActive = !(this.isActive);
+        			console.log(this.isActive)
+        		}
+        	}
+        })
+	// Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+		function OnInput (event) {
+			console.log ("The new content: " + event.target.value);
+			console.log(event.target.value.length);
+			if(event.target.value.length>5){
+				event.target.style="border-color:red";
+			}
+		}
+	// Internet Explorer
+		function OnPropChanged (event) {
+			if (event.propertyName.toLowerCase () == "value") {
+				console.log("The new content: " + event.srcElement.value);
+			}
+		}
+
+
+    </script>
+</html>
